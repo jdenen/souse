@@ -3,7 +3,7 @@ require "gherkin/parser/parser"
 require "gherkin/formatter/json_formatter"
 
 module Souse
-  class Parser
+  class GherkinCollection
     attr_reader :path, :io, :format, :parser
     
     def initialize path
@@ -18,7 +18,7 @@ module Souse
       Dir.glob "#{path}/**/*.feature"
     end
 
-    def parse_gherkin_into_json
+    def to_json
       parse_path.each { |f| parser.parse IO.read(f), f, 0 }
       format.done
       MultiJson.load io.string

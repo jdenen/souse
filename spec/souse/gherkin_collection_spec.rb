@@ -1,8 +1,8 @@
 require "spec_helper"
 
-describe Souse::Parser do
+describe Souse::GherkinCollection do
   let(:test_path) { double("path") }
-  let(:parser) { Souse::Parser.new test_path }
+  let(:parser) { Souse::GherkinCollection.new test_path }
   
   describe "#parse_path" do
     context "with a file path" do
@@ -33,7 +33,7 @@ describe Souse::Parser do
     end
   end
 
-  describe "#parse_gherkin_into_json" do
+  describe "#to_json" do
     let(:feature) { double("array") }
     
     before do
@@ -43,12 +43,12 @@ describe Souse::Parser do
     end
     
     it "iterates over the list of feature files" do
-      parser.parse_gherkin_into_json
+      parser.to_json
     end
 
     it "closes the formattter" do
       expect(parser.format).to receive(:done)
-      parser.parse_gherkin_into_json
+      parser.to_json
     end
   end
 end

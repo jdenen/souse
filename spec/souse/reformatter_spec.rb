@@ -110,5 +110,4 @@ describe Souse::Reformatter do
       reform.reformat_gherkin feature
     end
   end
-  
 end

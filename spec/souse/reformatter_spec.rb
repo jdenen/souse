@@ -110,4 +110,45 @@ describe Souse::Reformatter do
       reform.reformat_gherkin feature
     end
   end
+
+  describe "#reformat_tags" do
+    it "returns an array of two arrays" do
+      tags = reform.reformat_tags ["@foo"]
+      expect(tags).to be_an Array
+      expect(tags.size).to eq 2
+      expect(tags.first).to be_an Array
+      expect(tags.last).to be_an Array
+    end
+
+    context "for ignored (~) tags" do
+      let(:tags) { reform.reformat_tags ["~@foo"] }
+      
+      it "places tags in the second sub-array" do
+        expect(tags.first).to be_empty
+        expect(tags.last.size).to eq 1
+      end
+
+      it "strips the ~ symbol" do
+        expect(tags.last).to eq ["@foo"]
+      end
+    end
+
+    context "for normal tags" do
+      let(:tags) { reform.reformat_tags ["@bar"] }
+
+      it "places tags in the first sub-array" do
+        expect(tags.first.size).to eq 1
+        expect(tags.last).to be_empty
+      end
+    end
+
+    context "for a combination of tags" do
+      let(:tags) { reform.reformat_tags ["~@foo", "@bar", "~@baz"] }
+
+      it "places tags in the correct sub-array" do
+        expect(tags.first).to eq ["@bar"]
+        expect(tags.last).to eq ["@foo", "@baz"]
+      end
+    end
+  end
 end

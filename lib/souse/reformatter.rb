@@ -51,6 +51,13 @@ module Souse
         }
       end
     end
+
+    def reformat_tags tagged
+      [
+        tagged.dup.reject { |tag| tag.start_with? "~" },
+        tagged.dup.keep_if { |tag| tag.start_with? "~" }.map { |tag| tag.gsub("~", "") }
+      ]
+    end
     
   end
 end

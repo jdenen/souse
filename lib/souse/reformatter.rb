@@ -3,13 +3,13 @@ module Souse
     extend self
 
     def reformat_gherkin feature_jsons
-      feature_jsons.each do |feature|
+      feature_jsons.each_with_object({}) do |feature, hash|
         feature["elements"].each do |scenario|
           if scenario["type"] =~ /outline/
             table = reformat_table scenario["examples"]
-            reformat_outline feature["name"], scenario, table
+            hash.update reformat_outline(feature["name"], scenario, table)
           else
-            reformat_scenario feature["name"], scenario
+            hash.update reformat_scenario(feature["name"], scenario)
           end
         end
       end

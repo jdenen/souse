@@ -98,7 +98,7 @@ describe Souse::Reformatter do
 
     it "passes scenarios to #reformat_scenario" do
       feature = [{"name" => "Foo", "elements" => [{"type" => "scenario"}]}]
-      expect(reform).to receive(:reformat_scenario).with("Foo", {"type" => "scenario"})
+      expect(reform).to receive(:reformat_scenario).with("Foo", {"type" => "scenario"}).and_return({})
       reform.reformat_gherkin feature
     end
 
@@ -106,7 +106,7 @@ describe Souse::Reformatter do
       feature = [{"name" => "Bar", "elements" => [{"type" => "scenario_outline", "examples" => [:test]}]}]
       example = double("examples table")
       expect(reform).to receive(:reformat_table).with([:test]).and_return example
-      expect(reform).to receive(:reformat_outline).with("Bar", {"type" => "scenario_outline", "examples" => [:test]}, example)
+      expect(reform).to receive(:reformat_outline).with("Bar", {"type" => "scenario_outline", "examples" => [:test]}, example).and_return({})
       reform.reformat_gherkin feature
     end
   end
